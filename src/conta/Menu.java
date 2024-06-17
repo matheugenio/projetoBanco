@@ -86,7 +86,7 @@ public class Menu {
                     do {
                         System.out.println("Digite o Tipo da Conta (1-CC ou 2-CP): ");
                         tipo = leia.nextInt();
-                    } while (tipo < 1 && tipo > 2);
+                    } while (tipo < 1 || tipo > 2);
 
                     System.out.println("Digite o Saldo da Conta (R$): ");
                     saldo = leia.nextFloat();
@@ -158,7 +158,7 @@ public class Menu {
         try {
 
             System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
-            System.in.read();
+            System.in.read() ;
 
         } catch (IOException e) {
 
