@@ -5,7 +5,6 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import conta.controller.ContaController;
-import conta.model.Conta;
 import conta.util.Cores;
 import conta.model.ContaCorrente;
 import conta.model.ContaPoupanca;
@@ -31,9 +30,9 @@ public class Menu {
 
         contas.listarTodas();
 
-        int opcao, numero, agencia, tipo, aniversario;
+        int opcao, numero, agencia, tipo, aniversario, numeroDestino;
         String titular;
-        float saldo, limite;
+        float saldo, limite, valor;
 
         Scanner leia = new Scanner(System.in);
 
@@ -142,7 +141,7 @@ public class Menu {
 
                         tipo = buscaConta.getTipo();
 
-                        switch(tipo) {
+                        switch (tipo) {
                             case 1 -> {
                                 System.out.println("Digite o Limite de Crédito (R$): ");
                                 limite = leia.nextFloat();
@@ -156,18 +155,13 @@ public class Menu {
                             default -> System.out.println("Tipo de conta inválido!");
                         }
 
-                    }else
+                    } else
                         System.out.println("\nConta não encontrada!");
 
                     keyPress();
                     break;
                 case 5:
                     System.out.println(Cores.TEXT_WHITE + "Apagar a Conta\n\n");
-                    keyPress();
-
-                    break;
-                case 6:
-                    System.out.println(Cores.TEXT_WHITE + "Saque\n\n");
 
                     System.out.println("Digite o número da conta: ");
                     numero = leia.nextInt();
@@ -176,15 +170,52 @@ public class Menu {
 
                     keyPress();
                     break;
+                case 6:
+                    System.out.println(Cores.TEXT_WHITE + "Saque\n\n");
+
+                    System.out.println("Digite o número da conta: ");
+                    numero = leia.nextInt();
+
+                    do {
+                        System.out.println("Digite o valor do saque(R$): ");
+                        valor = leia.nextFloat();
+                    } while (valor <= 0);
+
+                    contas.sacar(numero, valor);
+
+                    keyPress();
+                    break;
                 case 7:
                     System.out.println(Cores.TEXT_WHITE + "Depósito\n\n");
-                    keyPress();
 
+                    System.out.println("Digite o número da conta: ");
+                    numero = leia.nextInt();
+
+                    do {
+                        System.out.println("Digite o valor do depósito(R$): ");
+                        valor = leia.nextFloat();
+                    } while (valor <= 0);
+
+                    contas.depositar(numero, valor);
+
+                    keyPress();
                     break;
                 case 8:
                     System.out.println(Cores.TEXT_WHITE + "Transferência entre Contas\n\n");
-                    keyPress();
 
+                    System.out.println("Digite o número da conta Origem: ");
+                    numero = leia.nextInt();
+                    System.out.println("Digite o número da conta Destino: ");
+                    numeroDestino = leia.nextInt();
+
+                    do {
+                        System.out.println("Digite o valor da transferência (R$): ");
+                        valor = leia.nextFloat();
+                    } while (valor <= 0);
+
+                    contas.transferir(numero, numeroDestino, valor);
+
+                    keyPress();
                     break;
                 default:
                     System.out.println(Cores.TEXT_RED_BOLD + "\nOpção Inválida!\n" + Cores.TEXT_RESET);
@@ -200,7 +231,7 @@ public class Menu {
         try {
 
             System.out.println(Cores.TEXT_RESET + "\n\nPressione Enter para Continuar...");
-            System.in.read() ;
+            System.in.read();
 
         } catch (IOException e) {
 
